@@ -12,3 +12,16 @@ Designed logic for FIFO empty and FIFO full flags <br>
 
 
 Code updated in the branch = 'Design'
+
+
+
+
+
+Stages<br>
+----------
+1. RTL design
+2. Verification using System verilog Assertions( Need to Study what is Assertions )
+3. Synthesis
+4. Timing Verification
+5. FPGA implementation
+6. AXI wrapping (Phase 2 of the project)
