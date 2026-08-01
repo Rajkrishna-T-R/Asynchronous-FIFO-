@@ -1,5 +1,5 @@
-# Asynchronous-FIFO-
-Asynchronous FIFO design and Verification project
+# Asynchronous-FIFO-<br>
+Asynchronous FIFO design and Verification project<br>
 Tool:Xilinx Vivado 2024.2
 
 
