@@ -5,9 +5,9 @@ Tool:Xilinx Vivado 2024.2
 
 1/8/2026 
 --------
-Basics about Asynchronous FIFO design studied
-Analysed The FIFO empty and FIFO full flags
-Designed logic for FIFO empty and FIFO full flags
+Basics about Asynchronous FIFO design studied <br>
+Analysed The FIFO empty and FIFO full flags   <br>
+Designed logic for FIFO empty and FIFO full flags <br>
 
 
 
