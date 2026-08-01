@@ -160,7 +160,7 @@ module Asyn_FIFO#(parameter data_width=8,
                 
              else 
                 begin   
-                    if
+                    
                 end            
       
         end        
