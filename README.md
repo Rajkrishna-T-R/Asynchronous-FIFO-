@@ -14,6 +14,15 @@ Designed logic for FIFO empty and FIFO full flags <br>
 Code updated in the branch = 'Design'
 
 
+22/8/2026 
+--------
+Gray coded CDC handled
+Reconversion logic studied -->  is it really needed ?
+Read and write operations handled
+Ptr_size=Addr_size+1 added 
+
+
+Code updated in the branch = 'Design'
 
 
 
