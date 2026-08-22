@@ -16,10 +16,10 @@ Code updated in the branch = 'Design'
 
 22/8/2026 
 --------
-Gray coded CDC handled
-Reconversion logic studied -->  is it really needed ?
-Read and write operations handled
-Ptr_size=Addr_size+1 added 
+Gray coded CDC handled <br>
+Reconversion logic studied -->  is it really needed ? <br>
+Read and write operations handled  <br>
+Ptr_size=Addr_size+1 added       <br>
 
 
 Code updated in the branch = 'Design'
