@@ -25,6 +25,16 @@ Ptr_size=Addr_size+1 added       <br>
 Code updated in the branch = 'Design'
 
 
+23/8/2026 
+--------
+Gray coded CDC handled <br>
+Pointers comapred in gray coded version on both read and write domain<br>
+Reset signal synchronized from write domain to read domain<br>
+(Is it really the correct way??)<br>
+
+
+Code updated in the branch = 'Design'
+
 
 Stages<br>
 ----------
