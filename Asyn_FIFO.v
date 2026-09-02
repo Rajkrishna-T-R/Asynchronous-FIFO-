@@ -116,9 +116,9 @@ module Asyn_FIFO#(parameter data_width=8,
                 end
              else 
                 begin       
-                rst_bar_sync1_rd<=1'b1;
-                rst_bar_sync2_rd<=rst_bar_sync1_rd;
-            end
+                    rst_bar_sync1_rd<=1'b1;
+                    rst_bar_sync2_rd<=rst_bar_sync1_rd;
+                end
         end
         
    //---------------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ module Asyn_FIFO#(parameter data_width=8,
             if(!rst_bar)
                 begin
                     rst_bar_sync1_wr<=1'b0;
-                    rst_bar_sync2_wr<=rst_bar_sync1_wr;
+                    rst_bar_sync2_wr<=1'b0;
                 end
             else 
                 begin
@@ -137,16 +137,10 @@ module Asyn_FIFO#(parameter data_width=8,
                 end
         end
   //---------------------------------------------------------------------------------------------  
-    // Binary to Gray_code conversion function
-    // Automatic used since each function call needs to separate memory allocation so that no overwrite occurs
-    function automatic [ptr_size-1:0]gray_out(binary_in);
-             gray_out=binary_in^(binary_in>>1);
-         endfunction
-   
        // Gray code version of Read pointer in read side
-       assign Rd_ptr_gray=gray_out(rd_ptr);
+       assign Rd_ptr_gray=(rd_ptr)^(rd_ptr>>1);
        // Gray code version of Write pointer in write side
-       assign Wr_ptr_gray=gray_out(wr_ptr);
+       assign Wr_ptr_gray=(wr_ptr)^(wr_ptr>>1);
    //---------------------------------------------------------------------------------------------
         // Two flop synchronisers
       
