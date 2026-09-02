@@ -43,6 +43,9 @@ Added synchronous reset to both read and write domain <br>
 Asynchronous assertion and synchronous deassertion implemented<br>
 Initial design of RTL is finished <br>
 Function for the gray code conversion replaced with assign statements <br>
+Testbench written using claude AI using detailed promt, and design is tested<br>
+Data not written when fifo is full but it is not even written when fifo is not full, instead it is skipped and went to next data<br>
+Need to fix the data loss problem during the continuous write and read in the testbench itself.<br>
 
 Code updated in the branch = 'Design'
 
