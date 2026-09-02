@@ -26,7 +26,7 @@ Code updated in the branch = 'Design'
 
 
 23/8/2026 
---------
+---------
 Gray coded CDC handled <br>
 Pointers comapred in gray coded version on both read and write domain<br>
 Reset signal synchronized from write domain to read domain<br>
@@ -35,6 +35,15 @@ Reset signal synchronized from write domain to read domain<br>
 
 Code updated in the branch = 'Design'
 
+
+
+2/9/2026
+--------
+Added synchronous reset to both read and write domain <br>
+Asynchronous assertion and synchronous deassertion implemented<br>
+Initial design of RTL is finished <br>
+
+Code updated in the branch = 'Design'
 
 Stages<br>
 ----------
