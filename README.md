@@ -42,6 +42,7 @@ Code updated in the branch = 'Design'
 Added synchronous reset to both read and write domain <br>
 Asynchronous assertion and synchronous deassertion implemented<br>
 Initial design of RTL is finished <br>
+Function for the gray code conversion replaced with assign statements <br>
 
 Code updated in the branch = 'Design'
 
