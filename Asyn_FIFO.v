@@ -59,6 +59,16 @@ module Asyn_FIFO#(parameter data_width=8,
     // FIFO buffer
     reg [data_width-1:0]FIFO_buf[0:FIFO_depth-1]; 
     
+    //---------------------------------------------
+    
+        integer j;
+        initial 
+            begin
+                for(j=0; j<FIFO_depth; j=j+1)
+                    FIFO_buf[j] = {data_width{1'b0}};
+            end
+            
+    //---------------------------------------------
     reg FIFO_full_flg;
     reg FIFO_empty_flg;
     
@@ -89,15 +99,42 @@ module Asyn_FIFO#(parameter data_width=8,
     
     // Reset synchronising
     
-    reg rst_bar_sync1;
-    reg rst_bar_sync2;
+    reg rst_bar_sync1_rd;
+    reg rst_bar_sync2_rd;
     
-  //---------------------------------------------------------------------------------------------
+    reg rst_bar_sync1_wr;
+    reg rst_bar_sync2_wr;
+    
+   //---------------------------------------------------------------------------------------------
    // the reset signal synchrnoised to read domain to reset the read side
-    always@(posedge rclk)
+    always@(posedge rclk or negedge rst_bar)
         begin
-            rst_bar_sync1<=rst_bar;
-            rst_bar_sync2<=rst_bar_sync1;
+            if(!rst_bar)
+                begin
+                    rst_bar_sync1_rd<=1'b0;
+                    rst_bar_sync2_rd<=1'b0;
+                end
+             else 
+                begin       
+                rst_bar_sync1_rd<=1'b1;
+                rst_bar_sync2_rd<=rst_bar_sync1_rd;
+            end
+        end
+        
+   //---------------------------------------------------------------------------------------------
+   // the reset signal synchrnoised to write domain to reset the write side
+    always@(posedge wclk or negedge rst_bar)
+        begin
+            if(!rst_bar)
+                begin
+                    rst_bar_sync1_wr<=1'b0;
+                    rst_bar_sync2_wr<=rst_bar_sync1_wr;
+                end
+            else 
+                begin
+                    rst_bar_sync1_wr<=1'b1;
+                    rst_bar_sync2_wr<=rst_bar_sync1_wr;
+                end
         end
   //---------------------------------------------------------------------------------------------  
     // Binary to Gray_code conversion function
@@ -111,12 +148,12 @@ module Asyn_FIFO#(parameter data_width=8,
        // Gray code version of Write pointer in write side
        assign Wr_ptr_gray=gray_out(wr_ptr);
    //---------------------------------------------------------------------------------------------
-        /// Two flop synchronisers
+        // Two flop synchronisers
       
      // synchronising in read clock domain           
      always@(posedge rclk) 
         begin   
-            if(!rst_bar)
+            if(!rst_bar_sync2_rd)
                 begin
                     Wr_ptr_syn1_gray<={ptr_size{1'b0}};
                     Wr_ptr_syn2_gray<={ptr_size{1'b0}};
@@ -130,7 +167,7 @@ module Asyn_FIFO#(parameter data_width=8,
       // synchronising in write clock domain          
        always@(posedge wclk) 
         begin   
-            if(!rst_bar)
+            if(!rst_bar_sync2_wr)
                 begin
                     Rd_ptr_syn1_gray<={ptr_size{1'b0}};
                     Rd_ptr_syn2_gray<={ptr_size{1'b0}};
@@ -161,31 +198,21 @@ module Asyn_FIFO#(parameter data_width=8,
     integer i;    // For resetting the memory        
     always@(posedge wclk)
         begin
-            if(!rst_bar)
-                begin // Synchronous Active Low reset
-                // write side controll the reset signal.(Assumption for now)
-                    for(i=0;i<FIFO_depth;i=i+1)
-                        begin
-                            FIFO_buf[i]<={(data_width){1'b0}};     
-                        end              
-                end
-                
-             else 
-                begin   
+           
                     if(write_en==1)  //Write condition true
                         begin
                            FIFO_buf[wr_ptr[ptr_size-2:0]]<=data_in; // Write the new data
                         end
                     
-                end            
+                          
       
         end        
      
-     // Write pointer operation
+     // Write pointer Handler
      
         always@(posedge wclk)
         begin
-            if(!rst_bar)
+            if(!rst_bar_sync2_wr)
                 begin // Synchronous Active Low reset
                         wr_ptr<={ptr_size{1'b0}};
                 end
@@ -203,32 +230,26 @@ module Asyn_FIFO#(parameter data_width=8,
                 end            
       
         end        
-        
+ //------------------------------------------------------------------------------------------------------------      
         
         
         // Read operation
       
     always@(posedge rclk)
         begin     
-            if(!rst_bar)
-                begin
-                    DATA_out<={data_width{1'b0}};  // DATA out register reset
-                end
-            else 
-                begin
+          
                     if(read_en==1)  //Read condition true
                         begin
                            DATA_out<=FIFO_buf[rd_ptr[ptr_size-2:0]]; 
                         end
-                   
-                end
+               
         end        
                 
-      //  read pointer operation
+      //  Read pointer Handler
       
       always@(posedge rclk)
         begin     
-            if(!rst_bar_sync2)
+            if(!rst_bar_sync2_rd)
                 begin
                     rd_ptr<={ptr_size{1'b0}};       // Read pointer reset  
                 end
